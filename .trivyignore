@@ -1,0 +1,24 @@
+# Accept these; revisit as needed
+
+# In python: this only applies to 3.8 which is bundled for ease of testing and
+# in case someone wants to use the older isyntax reader.  It is not directly
+# exposed
+
+# The other python issue can only be reached if a developer installs an unsafe
+# tarball via setuptools; it has not direct exposure
+
+# The ubuntu issues cannot be reached
+
+# HIGH: node-pkg - node-tar: tar: node-tar: Arbitrary file overwrite and symlin
+CVE-2026-23745
+# HIGH: node-pkg - node-tar: tar: node-tar: Arbitrary file overwrite via Unicod
+CVE-2026-23950
+# HIGH: python-pkg - setuptools: Path Traversal Vulnerability in setuptools Packa
+CVE-2025-47273
+# HIGH: python-pkg - jaraco.context: jaraco.context: Path traversal via malicious
+CVE-2026-23949
+# HIGH: python-pkg - wheel: wheel: Privilege Escalation or Arbitrary Code Executi
+CVE-2026-24049
+# HIGH: ubuntu - kernel: ksmbd: fix use-after-free in session logoff
+CVE-2025-37899
+

@@ -1,0 +1,6 @@
+# Python libraries required for WSI-DEID automation pipeline
+
+pandas>=1.5.3
+requests>=2.31.0
+watchdog>=3.0.0
+openpyxl>=3.1.2

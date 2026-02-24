@@ -1,0 +1,130 @@
+<mxfile host="65bd71144e">
+    <diagram id="8uFimgn5C-oeLoKNYwix" name="Page-1">
+        <mxGraphModel dx="720" dy="817" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="310.25" y="608" width="320" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="10" target="11">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="AvailableToProcess - Girder" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=#282828;" parent="1" vertex="1">
+                    <mxGeometry x="405" y="636" width="130" height="43" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="11" target="12">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Redact - SA-WSI-DeID" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=#282828;" parent="1" vertex="1">
+                    <mxGeometry x="420.25" y="719" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="12" target="47">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Approve" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=#282828;" parent="1" vertex="1">
+                    <mxGeometry x="420.25" y="789" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/folder.svg;" vertex="1" parent="1">
+                    <mxGeometry x="452" y="291" width="36.5" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="30" target="33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Import Folder" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="425.25" y="331" width="90" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="33" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Generate Manifest (.xlsx)&lt;div&gt;(&amp;lt;/&amp;gt; mainfest_geneartor.py)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="375.25" y="411" width="190" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="35" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="Ingest API Call&lt;div&gt;(&amp;lt;/&amp;gt; wsi_api.py)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="406.88" y="521" width="126.75" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="Docker Container&amp;nbsp;&lt;div&gt;(WSI-DeID Stack)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="305.25" y="739" width="125" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="47">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="470" y="950" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="47" value="Export" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=#282828;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="849" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/folder.svg;" vertex="1" parent="1">
+                    <mxGeometry x="452" y="952" width="36.5" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="90" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="50">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="471" y="1080" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="50" value="Export Folder" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="426.25" y="1002" width="90" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="" style="shape=link;html=1;strokeColor=none;" edge="1" parent="1">
+                    <mxGeometry width="100" relative="1" as="geometry">
+                        <mxPoint x="180" y="360" as="sourcePoint"/>
+                        <mxPoint x="180" y="440.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="72" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="404" y="178" width="190.68" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="72">
+                    <mxGeometry x="-19.322033898305087" width="209.32203389830508" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="74" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="72">
+                    <mxGeometry x="140.43478260869566" width="49.56521739130435" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=light-dark(#b25c8e, #512d2b);strokeColor=#b85450;" vertex="1" parent="72">
+                    <mxGeometry x="16.521739130434785" width="99.1304347826087" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="" style="endArrow=none;html=1;strokeWidth=5;" edge="1" parent="72">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="153.42637151106834" y="67.08333333333333" as="sourcePoint"/>
+                        <mxPoint x="153.42637151106834" y="35" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="77" value="" style="endArrow=none;html=1;strokeWidth=5;exitX=0.557;exitY=0.917;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="72">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="170.23702640498797" y="62.43999999999998" as="sourcePoint"/>
+                        <mxPoint x="170.25024061597688" y="39.083333333333336" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="78" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;gradientDirection=radial;" vertex="1" parent="72">
+                    <mxGeometry x="150.58825794032728" y="5.833333333333334" width="29.25890279114534" height="23.333333333333336" as="geometry"/>
+                </mxCell>
+                <mxCell id="92" value="E2200098765SA-1-1-HE.svs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="72">
+                    <mxGeometry x="-19.319999999999993" y="-30" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="75" target="28">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="460" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="84" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="369" y="1079" width="230" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="85" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="84">
+                    <mxGeometry width="230" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="86" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;" vertex="1" parent="84">
+                    <mxGeometry x="170" width="60" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="87" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=light-dark(#b25c8e, #512d2b);strokeColor=#b85450;" vertex="1" parent="84">
+                    <mxGeometry x="31" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="E2200098765SA-1-1-HE_DeID.svs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="379" y="1159" width="210" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
