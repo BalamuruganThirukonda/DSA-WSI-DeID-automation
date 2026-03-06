@@ -10,7 +10,7 @@ DB_EXCEL_FOLDER = "/home/thirukondabalamurugan/Desktop/CPHGPU1-Slides/DeID"
 
 # WSI DeID / Girder API
 GIRDER_URL = "http://localhost:8080/api/v1"
-API_KEY = "MCpOFgSuJ6XiZ4g6uMu3DlYg6EuAeUUoIKnyXStx"  # Replace this with your Girder API key
+API_KEY = "API_KEY"  # Replace this with your Girder API key
 
 # Manifest file name (generated in import folder)
 MANIFEST_FILENAME = "import.xlsx"
