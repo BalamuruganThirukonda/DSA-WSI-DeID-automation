@@ -1,7 +1,7 @@
 # automation/wsi_api.py
 import requests
 import json
-from config import GIRDER_URL, API_KEY
+from automation.config import GIRDER_URL, API_KEY
 
 # =========================
 # Girder Token Handling
@@ -77,3 +77,26 @@ def get_status():
     response = requests.get(url, headers={"Girder-Token": token})
     response.raise_for_status()
     return response.json()
+
+
+def delete_items(item_ids):
+    """
+    Delete processed items from Girder to free disk space
+    (removes files from assetstore).
+    """
+    token = get_girder_token()
+
+    deleted = 0
+
+    for item_id in item_ids:
+        try:
+            url = f"{GIRDER_URL}/item/{item_id}"
+            response = requests.delete(url, headers={"Girder-Token": token})
+            response.raise_for_status()
+            deleted += 1
+        except Exception as e:
+            print(f"[Delete] Failed for item {item_id}: {e}")
+
+    print(f"[Delete] Removed {deleted} items from Girder")
+
+    return deleted

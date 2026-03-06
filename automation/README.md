@@ -1,28 +1,66 @@
 # DSA-WSI-DeID Automation Pipeline
 
-This project provides an automated pipeline for processing Whole Slide Images (WSIs) using the SA-WSI-DeID tool. It handles:
+This project provides an automated pipeline for processing Whole Slide Images (WSIs) using the DSA-WSI-DeID tool.
 
-- Watching an import folder for `.svs` files
-- Generating a manifest
-- Ingesting slides into WSI-DeID via API
-- Redacting (de-identifying) slides
-- Approving and exporting processed slides
+The automation continuously monitors an Import folder, processes slides in batches, sends them to the WSI-DeID system via API, exports the de-identified slides, logs processing history, and manages processed files automatically.
 
-All of this can be run automatically, with minimal manual intervention.
+The goal is to run the entire DeID workflow without manual intervention.
 
 ---
 
 ## Features
 
-- Watch folder automation for `.svs` files
-- Automatic manifest creation (`import.xlsx`)
-- WSI DeID ingestion, processing, approval, and export via API
-- Temporary Girder token handling
-- Configurable import/export paths and API keys
-- Dockerized WSI-DeID stack support
+- Automatic watch folder pipeline
+
+- Batch processing of .svs slides
+
+- Automatic manifest generation
+
+- Automatic ingest → redact → approve → export
+
+- Handles slides inside nested subfolders
+
+- Prevents processing partially copied files
+
+- Automatic database logging of processed slides
+
+- Optional archive or deletion of processed slides
+
+- Automatic removal of DeID Export Job Excel files
+
+- Configurable paths and batch sizes
+
+- Compatible with Dockerized WSI-DeID stack
 
 ---
 
+## Workflow Overview
+
+The pipeline performs the following steps automatically:
+
+- Detect new slides in the Import folder
+
+- Move slides to the Process folder
+
+- Generate a manifest file
+
+- Ingest slides into Girder / WSI-DeID
+
+- Redact (de-identify) slides
+
+- Approve processed slides
+
+- Export de-identified slides
+
+- Clean up temporary export files
+
+- Delete processed items from Girder
+
+- Log processed slides to database
+
+- Archive or delete processed slides
+
+---
 ## Installation
 
 ### 1. Clone the repository
@@ -47,7 +85,9 @@ pip install -r requirements.txt
 ```
 Ensure pandas, request, watchdog and openpyxl are installed.
 
-# Docker Installation 
+---
+
+# Docker Installation (WSI-DeID)
 The WSI-DeID tool is packaged as Docker containers. Follow these steps:
 
 ## 1. Install Docker
@@ -72,7 +112,7 @@ This will start the Girder server and WSI-DeID services in Docker containers.
 
 Default API URL: http://localhost:8080/api/v1
 
-## 3. Check running containers
+## 3. Verify running containers
 ```bash
 docker ps
 ```
@@ -82,15 +122,25 @@ You should see containers for:
 - worker / redis – background processing
 - Other support services as configured
 
-
+---
 # Configuration
 
-All configurable paths and API keys are in automation/config.py:
+All settings are controlled in:
+```
+automation/config.py
+```
+Example configuration:
 
 ```python
-# Paths
-LOCAL_IMPORT_PATH = "Path to the import folder"
-LOCAL_EXPORT_PATH = "Path to the export folder"
+# Import / Process folders
+IMPORT_FOLDER = "/data/import"
+LOCAL_IMPORT_PATH = "/data/process"
+
+# Export folder
+LOCAL_EXPORT_PATH = "/data/export"
+
+# Archive folder
+ARCHIVE_FOLDER = "/data/archive"
 
 # WSI-DeID API
 GIRDER_URL = "http://localhost:8080/api/v1"
@@ -99,18 +149,28 @@ API_KEY = "PUT_YOUR_TOKEN_HERE"
 # Manifest
 MANIFEST_FILENAME = "import.xlsx"
 
-# Watcher interval (seconds)
+# Batch processing
+BATCH_SIZE = 20
+
+# Processed file handling
+PROCESSED_FILE_ACTION = "delete" # options: move | delete | keep
+# Delete DeID Export Job Excel files
+DELETE_EXPORT_JOB_FILES = True
+
+# Watch interval (seconds)
 POLL_INTERVAL = 5
 ```
 
-### Steps to Adjust Config
+### Configuration Steps
 
-1. Set LOCAL_IMPORT_PATH to the folder where .svs files will arrive.
-2. Set LOCAL_EXPORT_PATH to the folder where processed slides should be saved.
-3. Set GIRDER_URL to your WSI-DeID/Girder API endpoint.
-4. Generate a Girder API key via your WSI-DeID/Girder admin account and set it as API_KEY.
-5. Optionally adjust POLL_INTERVAL to control folder scan frequency.
-
+1. Set IMPORT_FOLDER where new .svs slides arrive.
+2. Set LOCAL_IMPORT_PATH as the processing folder.
+3. Set LOCAL_EXPORT_PATH where de-identified slides will be exported.
+4. Set ARCHIVE_FOLDER if you plan to archive processed slides.
+5. Set GIRDER_URL to your WSI-DeID API endpoint.
+6. Generate a Girder API key and add it as API_KEY.
+7. Adjust BATCH_SIZE depending on server capacity.
+---
 # Folder Structure
 
 ```code
@@ -119,5 +179,22 @@ automation/
 │   ├─ manifest_generator.py   # Scan import folder & generate manifest
 │   ├─ wsi_api.py              # API actions: ingest, process, approve, export
 │   ├─ pipeline.py             # Single-run pipeline orchestrator
-│   └─ watch_folder.py         # Continuous watch folder automation
-``
+│   ├─ watch_folder.py         # Continuous watch folder automation
+    └─ db_logger.py
+```
+---
+# Running the Automation
+
+
+Start the watch-folder automation:
+```
+python automation/watch_folder.py
+```
+The system will continuously:
+- Scan the Import folder
+- Move slides to the Process folder
+- Run the DeID pipeline
+- Repeat automatically
+
+---
+# License

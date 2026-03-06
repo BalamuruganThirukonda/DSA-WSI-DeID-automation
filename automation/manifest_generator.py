@@ -1,8 +1,24 @@
-# manifest_generator.py
 import re
 import os
+import hashlib
 import pandas as pd
-from config import LOCAL_IMPORT_PATH, MANIFEST_FILENAME
+from automation.config import LOCAL_IMPORT_PATH, MANIFEST_FILENAME
+
+# =====================================
+# PSEUDONYM GENERATOR
+# =====================================
+def generate_pseudoname(real_id):
+    """
+    Deterministic pseudoname from real case ID.
+    Same input -> same output.
+    Uses letters + numbers for uniqueness.
+    """
+    hash_object = hashlib.sha256(real_id.encode())
+    hash_int = int(hash_object.hexdigest(), 16)
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    num_part = hash_int % 10000  # 4-digit number
+    letter_part = letters[(hash_int // 10000) % 26]
+    return f"{letter_part}{num_part:04d}"
 
 # =====================================
 # FILENAME PARSER
@@ -10,64 +26,79 @@ from config import LOCAL_IMPORT_PATH, MANIFEST_FILENAME
 def parse_filename(filename):
     """
     Parse the SVS filename to extract:
-    - TokenID / PatientID
-    - SampleID according to your rules
+    - TokenID / PatientID (first 11 characters)
+    - SampleID = CPH-pseudonym-G-1-2-KI-67
     """
     name = os.path.splitext(filename)[0]
 
-    # Pattern matches:
-    # E/T/R + 10 digits -> TokenID / PatientID
-    # SA/SB block
-    # -block-section
-    # -stain (before _UTC or end)
-    pattern = r'^([ETR]\d{10})(S[AB])-(\d+)-(\d+)-(.+?)(?:_UTC.*)?$'
+    # Pattern:
+    # (E/T/R + 10 digits)
+    # S + letter
+    # -block-section-stain
+    pattern = r'^([ETR]\d{10})S([A-Z])-(\d+)-(\d+)-(.+?)(?:_UTC.*)?$'
     match = re.match(pattern, name)
 
     if not match:
-        # fallback rule: use filename as SampleID with -DeID
+        # fallback
+        token_patient = name[:11]
+        pseudo = generate_pseudoname(token_patient)
         return {
-            "TokenID": name,
-            "PatientID": name,
-            "SampleID": name + "-DeID"
+            "TokenID": token_patient,
+            "PatientID": token_patient,
+            "SampleID": f"CPH-{pseudo}-UNKNOWN"
         }
 
-    full_id = match.group(1)          # E2025001234
-    sa_block = match.group(2)         # SA or SB
-    block = match.group(3)
-    section = match.group(4)
-    stain = match.group(5)            # H&E, KI-67, etc.
+    token_patient = match.group(1)   # E2025024494
+    letter = match.group(2)          # G
+    block = match.group(3)           # 1
+    section = match.group(4)         # 2
+    stain = match.group(5)           # KI-67
 
-    case_6digit = full_id[-6:]        # last 6 digits
-    letter = sa_block[-1]             # A or B
+    # Deterministic pseudonym based on PatientID only
+    pseudo = generate_pseudoname(token_patient)
 
-    sample_id = f"CPH-{case_6digit}-{letter}{block}-{section}-{stain}-DeID"
+    sample_id = f"CPH-{pseudo}-{letter}-{block}-{section}-{stain}"
 
     return {
-        "TokenID": full_id,
-        "PatientID": full_id,
+        "TokenID": token_patient,
+        "PatientID": token_patient,
         "SampleID": sample_id
     }
 
 # =====================================
 # MANIFEST GENERATOR
 # =====================================
-def generate_manifest():
+def generate_manifest(batch_files=None, manifest_path=None):
     """
-    Scan the import folder for .svs files and generate an Excel manifest
+    Generate manifest Excel file for SVS files.
+    If batch_files is provided, only those files are used.
     """
-    print("\nScanning for SVS files in import folder:", LOCAL_IMPORT_PATH)
 
-    files = [f for f in os.listdir(LOCAL_IMPORT_PATH) if f.lower().endswith(".svs")]
+    # Default manifest path
+    if manifest_path is None:
+        manifest_path = os.path.join(LOCAL_IMPORT_PATH, MANIFEST_FILENAME)
 
-    if not files:
-        print("No .svs files found. Place SVS files in the import folder.")
+    # Determine which files to process
+    if batch_files is None:
+        svs_files = [
+            f for f in os.listdir(LOCAL_IMPORT_PATH)
+            if f.lower().endswith(".svs")
+        ]
+    else:
+        svs_files = batch_files
+
+    if not svs_files:
+        print("No SVS files found.")
         return False
 
-    print(f"Found {len(files)} SVS files.")
+    print(f"Scanning for SVS files in import folder: {LOCAL_IMPORT_PATH}")
+    print(f"Found {len(svs_files)} SVS files.")
 
     rows = []
-    for i, file in enumerate(files, start=1):
+
+    for i, file in enumerate(svs_files, start=1):
         parsed = parse_filename(file)
+
         rows.append({
             "TokenID": parsed["TokenID"],
             "Proc_Seq": i,
@@ -79,10 +110,10 @@ def generate_manifest():
 
     df = pd.DataFrame(rows)
 
-    manifest_path = os.path.join(LOCAL_IMPORT_PATH, MANIFEST_FILENAME)
     df.to_excel(manifest_path, index=False)
 
     print("\nManifest generated successfully:", manifest_path)
+
     return True
 
 # =====================================
